@@ -1,0 +1,211 @@
+/* Fondo general de la página de servicios */
+.flow-page {
+  min-height: 100vh;
+  padding: 3rem 6vw;
+  background: radial-gradient(circle at top left, #0a1d3a, #0f3460, #020617);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #f9fafb;
+}
+
+/* Títulos */
+.flow-title {
+  font-size: 2.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.flow-subtitle {
+  max-width: 720px;
+  font-size: 0.95rem;
+  color: #e5e7eb;
+  opacity: 0.9;
+  margin-bottom: 2rem;
+}
+
+/* “Board” blanco */
+.flow-board {
+  background: #f9fafb;
+  border-radius: 1.75rem;
+  padding: 1.75rem 2rem;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+  overflow-x: auto;
+}
+
+.flow-lane {
+  display: flex;
+  align-items: stretch;
+  min-width: 700px;
+}
+
+/* Bloques */
+.flow-node {
+  min-width: 220px;
+  background: #fefce8;
+  border-radius: 1.25rem;
+  border: 1px solid #e5e7eb;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.flow-node-stage {
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.5rem 0.9rem;
+  border-bottom: 1px solid #e5e7eb;
+  border-radius: 1.25rem 1.25rem 0 0;
+  background: rgba(255, 255, 255, 0.8);
+  color: #4b5563;
+}
+
+.flow-node-body {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.9rem 0.9rem 1rem;
+  align-items: center;
+}
+
+.flow-node-icon {
+  font-size: 1.8rem;
+}
+
+.flow-node-texts {
+  text-align: left;
+}
+
+.flow-node-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 0.15rem;
+}
+
+.flow-node-summary {
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+/* Activo */
+.flow-node-active {
+  border-color: #22c55e;
+  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.5);
+  transform: translateY(-3px);
+}
+
+/* Conectores */
+.flow-connector {
+  display: flex;
+  align-items: center;
+  padding: 0 0.75rem;
+}
+
+.flow-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: #9ca3af;
+}
+
+.flow-line {
+  flex: 1;
+  height: 2px;
+  background: #d1d5db;
+}
+
+/* Detalle */
+.flow-detail {
+  margin-top: 2rem;
+  background: rgba(15, 23, 42, 0.9);
+  border-radius: 1.5rem;
+  padding: 1.75rem 1.75rem 1.5rem;
+  border: 1px solid rgba(148, 163, 184, 0.6);
+  backdrop-filter: blur(10px);
+  .flow-detail {
+  transition: all 0.35s ease;
+}
+}
+
+.flow-detail-title {
+  font-size: 1.4rem;
+  margin-bottom: 0.75rem;
+}
+
+.flow-detail-text {
+  font-size: 0.95rem;
+  color: #e5e7eb;
+  margin-bottom: 0.9rem;
+  white-space: pre-line;
+}
+
+.flow-detail-list {
+  margin-left: 1.2rem;
+  font-size: 0.9rem;
+  color: #f9fafb;
+}
+
+.flow-detail-item {
+  margin-bottom: 0.3rem;
+}
+
+/* Botón flotante de WhatsApp */
+.whatsapp-float {
+  position: fixed;
+  width: 65px;
+  height: 65px;
+  bottom: 25px;
+  right: 25px;
+  background-color: #25d366;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  z-index: 9999;
+  transition: transform 0.2s ease;
+}
+
+.whatsapp-float:hover {
+  transform: scale(1.1);
+}
+
+.whatsapp-float-icon {
+  width: 35px;
+  height: 35px;
+  filter: brightness(0) invert(1);
+}
+
+/* Footer */
+.footer {
+  margin-top: 3rem;
+  padding: 2rem 0 1rem;
+  text-align: center;
+  opacity: 0.85;
+  font-size: 0.9rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.footer-contact {
+  margin-top: 0.4rem;
+  font-size: 0.85rem;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .flow-page {
+    padding: 2rem 1.25rem;
+  }
+
+  .flow-title {
+    font-size: 1.9rem;
+  }
+
+  .flow-board {
+    padding: 1.25rem 1.25rem;
+  }
+}
+.flow-node:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+}
