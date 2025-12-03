@@ -19,9 +19,9 @@
   content: "";
   position: absolute;
   inset: -40%;
-  background-image:
-    radial-gradient(circle at 20% 20%, rgba(56, 189, 248, 0.2) 0, transparent 55%),
-    radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.2) 0, transparent 55%);
+.splash-bg {
+background-image: url("./assets/logo-synapse.png");
+}
   opacity: 0.7;
   pointer-events: none;
 }
@@ -34,7 +34,7 @@
   pointer-events: none;
 }
 
-/* Para que el contenido se vea encima del fondo */
+/* Contenido encima del fondo */
 .intro-section > * {
   position: relative;
   z-index: 1;
@@ -63,29 +63,25 @@
   max-width: 540px;
   margin: 0 auto;
 }
-/* ===== PANTALLA DE INTRO SOLO LOGO ===== */
 
-/* ===== SPLASH CON EL LOGO A PANTALLA COMPLETA ===== */
+/* ========================================================= */
+/* ===================== SPLASH NUEVO ====================== */
+/* ========================================================= */
 
-.splash {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-  z-index: 9999;
-  background: #020617; /* color debajo, casi no se verá */
-}
+/* ========================================================= */
+/* ===================== SPLASH NUEVO ====================== */
+/* ========================================================= */
 
-/* El truco: usamos la imagen como FONDO a pantalla completa */
-.splash-logo {
+.splash-bg {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  background-image: url("./assets/logo-synapse.png"); /* mismo archivo */
-  background-size: cover;      /* llena toda la pantalla */
-  background-position: center; /* centrado */
+  background-image: url("./assets/logo-synapse.png");
+  background-size: cover;
+  background-position: center;
   background-repeat: no-repeat;
+  z-index: 0;
 }
+
 
