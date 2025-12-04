@@ -2,28 +2,61 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import Services from "./components/Services";
 
-const SUBTITLE_TEXT = "Conectamos tu negocio con la inteligencia del futuro";
+// Textos base
+const TEXTS = {
+  es: {
+    subtitle: "Conectamos tu negocio con la inteligencia del futuro",
+  },
+  en: {
+    subtitle: "We connect your business with the intelligence of the future",
+  },
+};
+
+// Texto para el splash
+const SUBTITLE_TEXT = TEXTS.es.subtitle;
 
 // =========================
-//  FUNCIÓN DE VOZ SÚPER SIMPLE
+//  FUNCIÓN DE VOZ (MEJORADA)
 // =========================
 function speak(text) {
-  if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
+  if (typeof window === "undefined" || !("speechSynthesis" in window)) {
+    console.warn("speechSynthesis no disponible en este navegador.");
+    return;
+  }
 
   const synth = window.speechSynthesis;
 
   try {
-    const utter = new SpeechSynthesisUtterance(text);
-
-    // Config básica
-    utter.lang = "es-ES";
-    utter.rate = 0.95;
-    utter.pitch = 1.25;
-    utter.volume = 1;
-
-    // Dejamos que el navegador elija la voz
+    // cancelar cualquier voz previa
     synth.cancel();
-    synth.speak(utter);
+
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.lang = "es-ES";      // español
+    utter.rate = 0.95;         // velocidad
+    utter.pitch = 1.25;        // tono
+    utter.volume = 1;          // volumen al máximo
+
+    const voices = synth.getVoices();
+
+    if (voices && voices.length > 0) {
+      // buscar voz en español
+      const spanishVoice =
+        voices.find((v) => v.lang.startsWith("es")) || voices[0];
+
+      utter.voice = spanishVoice;
+      synth.speak(utter);
+    } else {
+      // si las voces cargan después
+      synth.onvoiceschanged = () => {
+        const loadedVoices = synth.getVoices();
+        const spanishVoiceLoaded =
+          loadedVoices.find((v) => v.lang.startsWith("es")) ||
+          loadedVoices[0];
+
+        utter.voice = spanishVoiceLoaded;
+        synth.speak(utter);
+      };
+    }
   } catch (e) {
     console.error("Error al intentar hablar:", e);
   }
@@ -32,41 +65,38 @@ function speak(text) {
 function App() {
   const [showSplash, setShowSplash] = useState(true);
   const [typedText, setTypedText] = useState("");
+  const [language, setLanguage] = useState("es");
 
   useEffect(() => {
-    // Intentar que hable solo al cargar (si el navegador lo permite)
-    const speakTimeout = setTimeout(() => {
-      speak(SUBTITLE_TEXT);
-    }, 800);
-
-    // Efecto de texto escribiéndose
-    let index = 0;
+    // Texto escribiéndose
+    let idx = 0;
     const intervalId = setInterval(() => {
-      index += 1;
-      setTypedText(SUBTITLE_TEXT.slice(0, index));
-      if (index >= SUBTITLE_TEXT.length) clearInterval(intervalId);
+      idx += 1;
+      setTypedText(SUBTITLE_TEXT.slice(0, idx));
+      if (idx >= SUBTITLE_TEXT.length) clearInterval(intervalId);
     }, 70);
 
-    // Duración del splash
+    // Tiempo del splash
     const splashTimeout = setTimeout(() => {
       setShowSplash(false);
     }, 4200);
 
     return () => {
-      clearTimeout(speakTimeout);
-      clearTimeout(splashTimeout);
       clearInterval(intervalId);
+      clearTimeout(splashTimeout);
     };
   }, []);
 
-  // PRIMERA PÁGINA (SPLASH)
+  // =========================
+  //  SPLASH PAGE
+  // =========================
   if (showSplash) {
     return (
       <div className="splash">
         <div className="splash-bg"></div>
+
         <p className="splash-subtitle">{typedText}</p>
 
-        {/* 🔊 BOTÓN PARA ESCUCHAR EN LA PRIMERA PÁGINA */}
         <button
           onClick={() => speak(SUBTITLE_TEXT)}
           style={{
@@ -80,10 +110,10 @@ function App() {
             cursor: "pointer",
             fontSize: "14px",
             fontWeight: "600",
-            background: "#111827",  // fondo oscuro
-            color: "#ffffff",       // texto blanco
+            background: "#111827",
+            color: "#fff",
             boxShadow: "0 4px 10px rgba(0,0,0,0.35)",
-            zIndex: 10,             // por encima del fondo y del logo
+            zIndex: 10,
           }}
         >
           🔊 Pulsa para escuchar
@@ -92,10 +122,57 @@ function App() {
     );
   }
 
-  // SEGUNDA PÁGINA (SERVICIOS)
+  // =========================
+  //  SECOND PAGE — SERVICES
+  // =========================
   return (
-    <div className="App">
-      <Services />
+    <div className="App" style={{ position: "relative", paddingTop: "60px" }}>
+
+      {/* ⭐ BOTONES DE IDIOMA, SIEMPRE ARRIBA A LA DERECHA ⭐ */}
+      <div
+        className="lang-switch"
+        style={{
+          position: "fixed",
+          top: "10px",
+          right: "10px",
+          zIndex: 9999,
+          display: "flex",
+          gap: "10px",
+        }}
+      >
+        <button
+          className={language === "es" ? "active" : ""}
+          onClick={() => setLanguage("es")}
+          style={{
+            padding: "8px 15px",
+            borderRadius: "20px",
+            background: "#00000070",
+            color: "white",
+            border: "1px solid white",
+            cursor: "pointer",
+          }}
+        >
+          ES
+        </button>
+
+        <button
+          className={language === "en" ? "active" : ""}
+          onClick={() => setLanguage("en")}
+          style={{
+            padding: "8px 15px",
+            borderRadius: "20px",
+            background: "#00000070",
+            color: "white",
+            border: "1px solid white",
+            cursor: "pointer",
+          }}
+        >
+          EN
+        </button>
+      </div>
+
+      {/* Pasamos el idioma a Services */}
+      <Services language={language} />
     </div>
   );
 }
